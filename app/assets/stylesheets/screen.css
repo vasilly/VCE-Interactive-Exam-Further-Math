@@ -1,0 +1,83 @@
+
+
+body {
+  font: 1em sans-serif;
+  font-family: "Times New Roman", Times, serif;
+  background-color:  lightgrey;
+  /**/
+}
+.subject{font-size:.8em;}
+
+.rightAlign{
+    text-align: right;
+}
+.centreVertically{
+  display:inline-block;
+  vertical-align:middle
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: #ADADAD;
+  outline: solid black 2px;
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  /*display: none;*/
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.d3-tip-blue {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 100, 0.5);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.container{
+    margin: 3em auto;
+    padding:4em;
+    width:50%;
+    background-color:white;
+    box-shadow: 2px 4px 6px 4px  grey;
+}
+.shorter{width:80%;text-align: "left";}

@@ -1,0 +1,505 @@
+  <header>
+    <div class="nav">
+      <ul>
+        <li class="home"><a href="#">Home</a></li>
+        <li class="tutorials"><a href="#">Tutorials</a></li>
+        <li class="about"><a href="#">About</a></li>
+        <li class="news"><a href="#">Newsletter</a></li>
+        <li class="contact"><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+
+<!--  -->
+
+
+
+
+
+
+<div class="container">
+  <h1>Interactive online VCE practise Exam</h1>
+  <h2>FURTHER MATHEMATICS</h2>
+<p>Based on </p>
+<a href="http://www.vcaa.vic.edu.au/Documents/exams/mathematics/2013/2013furmath2-w.pdf">written examination 2, Monday 4 November 2013</a>
+
+</div>
+<div class="container">
+<h1>Forum For This Exam</h1>
+
+<ul id="articles">
+  <% @articles.each do |article| %>
+    <li>
+<%= link_to article.title, article_path(article), class: 'article_title' %>
+    </li>
+  <% end %>
+</ul>
+<%= link_to "Create a New Forum Topic", new_article_path, class: "new_article" %>
+</div>
+
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style></style>
+<body>
+
+
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<script>
+  //------------------------------------------------------------
+function $id(id){
+  return document.getElementById(id)
+}
+function correct_question( q_Id, answer ){
+    //check selected index of pull-down box for correct answer
+  //indexes ALWAYS start at 0!
+  var quest = document.getElementById(q_Id);
+  return (quest.selectedIndex == answer)? 1 : 0;
+}
+function gradeTest() {
+  //variables with global implications
+  var totalQuestions = 2;
+  var correctAnswers = 0;
+  var alertText;
+  var i;
+
+  correctAnswers += correct_question( 'q1a', 4 )
+  correctAnswers += correct_question( 'q1b', 2 )
+
+// total correct
+  if(correctAnswers == totalQuestions) {
+    alertText = "Congratulations! 100% !";
+  }
+  else {
+    alertText = "You got " + correctAnswers + " out of " + totalQuestions + " correct!";
+  }
+  $id("show_q1b_answer").innerHTML = alertText;
+}//end grade test
+//------------------------------------------------------------
+
+</script>
+
+
+
+<div class="container">
+ <div class="subject">2013 FURMATH EXAM 2</div ><br>
+ <h3>Core</h3><br>
+  <b>Question 1</b> (2 marks)
+<p>A development index is used as a measure of the standard of living in a country. </p><p>
+The bar chart below displays the development index for 153 countries in four categories: low, medium, high and very high.
+</p>
+<caption><i>n</i> = 163</caption>
+<table>
+
+  <td>frequency</td>
+<td id="graph1"></td>
+</table>
+<p>
+a. How many of these countries have a very high development index?
+<div class="rightAlign">1 mark</div>
+
+<form id="test">
+<select name="q1a" id="q1a">
+<option value="0">0</option>
+<option value="45">45</option>
+<option value="49">49</option>
+<option value="27">27</option>
+<option value="31">31</option>
+</select>
+</form>
+
+
+
+</p>
+<hr>
+<!-- ----------------------------------------------------------- -->
+<p>
+b. What percentage of the 153 countries has either a low or medium development index?
+</p><p>Write your answer, correct to the nearest percentage.
+ <div class="rightAlign">1 mark</div>
+</p>
+
+<form id="test2">
+<select name="q1b" id="q1b">
+<option value="0">0</option>
+<option value="45">45%</option>
+<option value="61">61%</option>
+<option value="71">71%</option>
+<option value="85">85%</option>
+</select>
+</form>
+
+<hr>
+</div>
+
+
+
+
+
+
+
+
+<div class="container">
+ <div class="subject">2013 FURMATH EXAM 2</div ><br><br>
+  <b>Question 4</b> (5 marks)
+  </p><p>
+The time series plot below shows the average pay rate, in dollars per hour, for workers in a particular country for the years 1991 to 2005.</p>
+
+<table>
+
+  <td><i>Average Pay Rate</i><br>(dollars per hour)</td>
+<td id="graph2"></td>
+</table>
+<p>
+
+</p><br><p>A three median line will be used to model the increasing trend in the average pay rate shown in this time series.</p><p>
+The independent variable to be used is <i>year</i>.</p><p>
+<b>a.</b>&emsp;Three medians will be used to draw the three median line.
+</p>
+
+</p>
+<p>&emsp;&emsp;<b>i.</b>&emsp;On the time series plot above, mark the location of each of the three medians with
+a cross (X).</p> <div class="rightAlign">2 mark</div>
+</div>
+
+
+
+<div class="container">
+<input name="submit" type="button" id = "btn_q1b_submit" value="Mark This Exam"/><br><br>
+<div id="show_q1b_answer">results:</div>
+
+</div>
+<script>
+  document.getElementById("btn_q1b_submit").addEventListener("click", gradeTest
+, false);
+</script>
+
+<!-- container -->
+<script>
+//http://stackoverflow.com/questions/21639305/d3js-take-data-from-an-array-instead-of-a-file
+
+var margin = {top: 40, right: 20, bottom: 30, left: 40},
+    width = screen.width/2.8 - margin.left - margin.right,
+    height = screen.height/2 - margin.top - margin.bottom;
+
+var formatPercent = d3.format("2d");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .2);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .tickPadding(5)
+    .tickSize(0,0)
+    .orient("bottom");
+
+// var axisScale = d3.scale.linear()
+//                         .domain([0, 100])
+//                         .range([0, 400]);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(formatPercent);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>index:</strong> <span style='color:white'>" + d.letter + "</span><br>"+"<strong>frequency:</strong> <span style='color:white;'>" + d.frequency + "</span>"
+    ;
+  })
+function $id(id){return document.getElementById(id)}
+var svg = d3.select("#graph1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+
+// horizontal lines
+svg.selectAll(".hline").data(d3.range(12)).enter()
+    .append("line")
+    .attr("y1", function (d) {  return d * 33.65 + -13; })
+    .attr("y2", function (d) {  return d * 33.65 + -13; })
+    .attr("x1", function (d) {  return -40;            })
+    .attr("x2", function (d) {  return width-40;        })
+    .style("stroke", "grey")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  // .append("line")
+  //       .attr(
+  //       {
+  //           "class":"horizontalGrid",
+  //           "x1" : margin.right,
+  //           "x2" : width,
+  //           "y1" : function(d){ return yScale(d);},
+  //           "y2" : function(d){ return yScale(d);},
+  //           "fill" : "none",
+  //           "shape-rendering" : "crispEdges",
+  //           "stroke" : "black",
+  //           "stroke-width" : "1px"
+  //       });
+
+
+// The new data variable.
+var data = [
+  {letter: "low",       frequency: 45},
+  {letter: "medium",    frequency: 49},
+  {letter: "high",      frequency: 27},
+  {letter: "very high", frequency: 31}
+];
+
+
+// The following code was contained in the callback function.
+x.domain(data.map(function(d) { return d.letter; }));
+y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+  .append("text")
+    .attr("x", 170)
+    .attr("y", 30)
+    .attr("dx", "1em")
+    .style("text-anchor", "middle")
+    .text("developemental index");
+
+svg.append("g")
+  .append("text")
+    .attr("x", 300)
+    .attr("y", 10)
+    .attr("dx", "1em")
+    .style("text-anchor", "middle")
+    .attr("font-style", "italic")
+    .text("n");
+
+svg.append("g")
+  .append("text")
+    .attr("x", 330)
+    .attr("y", 10)
+    .attr("dx", "1em")
+    .style("text-anchor", "middle")
+    .text("= 163");
+
+svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+  .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", -40)
+    .attr("x", -250)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    // .text("Frequency");
+
+svg.selectAll(".bar")
+    .data(data)
+  .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return x(d.letter); })
+    .attr("width", x.rangeBand())
+    .attr("y", function(d) { return y(d.frequency); })
+    .attr("height", function(d) { return height - y(d.frequency); })
+    .on('mouseover', tip.show)
+    .on('mouseout', tip.hide)
+
+function type(d) {
+  d.frequency = +d.frequency;
+  return d;
+}
+
+// a fully-featured jquery replacement
+// $.ajax = function(url, callback) {
+//   var xhr = new XMLHttpRequest();
+//   xhr.open("GET", url, true);
+//   xhr.onload = callback;
+//   xhr.send();
+// }
+
+</script>
+<br>
+here again
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+.line {
+    fill: none;
+    stroke: black;
+    stroke-width: 1.5px;
+}
+.line.second {
+    stroke: red;
+}
+.area {
+    fill: none;
+    opacity: 0.5;
+}
+.dot {
+    fill: none;
+/*    stroke: steelblue;
+    stroke-width: 1.5px;*/
+}
+</style>
+
+
+<script>
+//http://stackoverflow.com/questions/21639305/d3js-take-data-from-an-array-instead-of-a-file
+var data = [
+    [12.9, 12.1, 13.7, 14.9, 15.2, 15.9, 16.8, 17.4, 16.8, 18.4, 19, 19.9, 21.8,23.2,24.6]
+    // [1234, 4234, 3234, 2234, 7234, 6234, 3234, 9234, 5234, 2234]
+];
+
+var margin = {top: 30, right: 30, bottom: 30, left: 60},
+    width = 500 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// var linearScale = d3.scale.linear()
+//                           .domain([1990,screen.width/3])
+//                           .range([0,500]);
+// //1990 - 2005
+var x = d3.scale.linear().domain([0, data[0].length]).range([0, width]),
+    y = d3.scale.linear().domain([0, d3.max(data[0])]).range([height, 0]);
+    xAxis = d3.svg.axis().scale(x).ticks(5),
+    yAxis = d3.svg.axis().scale(y).ticks(5).orient("left");
+
+
+
+var svg = d3.select("#graph2").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom);
+
+
+// horizontal lines
+svg.selectAll(".hline").data(d3.range(10)).enter()
+    .append("line")
+    .attr("y1", function (d) {
+    return d * 26.6 + 0;
+})
+    .attr("y2", function (d) {
+    return d * 26.6 + 0;
+})
+    .attr("x1", function (d) {
+    return 0;
+})
+    .attr("x2", function (d) {
+    return width;
+})
+    .style("stroke", "grey")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+//vertical lines
+svg.selectAll(".vline").data(d3.range(21)).enter()
+    .append("line")
+    .attr("x1", function (d) {
+    return d * (width / 10);
+})
+    .attr("x2", function (d) {
+    return d * (width / 10);
+})
+    .attr("y1", function (d) {
+    return 0;
+})
+    .attr("y2", function (d) {
+    return height;
+})
+    .style("stroke", "grey")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+
+
+
+
+
+var line = d3.svg.line()
+    .x(function (d, i) {
+    return x(i);
+})
+    .y(function (d) {
+    return y(d);
+});
+
+var area = d3.svg.area()
+    .x(line.x())
+    .y1(line.y())
+    .y0(y(0));
+
+
+
+var lines = svg.selectAll("g")
+    .data(data);
+
+var aLineContainer = lines.enter().append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+aLineContainer.append("path")
+    .attr("class", "area")
+    .attr("d", area);
+
+aLineContainer.append("path")
+    .attr("class", "line")
+    .attr("d", line);
+
+aLineContainer.selectAll(".dot")
+    .data(function (d, i) {
+    return d;
+})
+    .enter()
+    .append("circle")
+    .attr("class", "dot")
+    .attr("cx", line.x())
+    .attr("cy", line.y())
+    .attr("r", 3.0)
+    .style("fill", "black") ;
+
+
+  // Add the x-axis.
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+      .call(xAxis)
+  .append("text")
+    .attr("x", 200)
+    .attr("y", 25)
+    .attr("dx", "1em")
+    .style("text-anchor", "middle")
+    .text("year");
+
+  // Add the y-axis.
+  svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .call(yAxis)
+  .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -60)
+    .attr("y", -40)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    // .text("Average Pay Rate $/hour");
+</script>
+
